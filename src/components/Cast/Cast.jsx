@@ -2,6 +2,7 @@ import apiService from 'api/api';
 import { Status } from 'api/status';
 import { ErrorComponent } from 'components/Error/Error';
 import LoaderComponent from 'components/Loader/Loader';
+import { MovieList, MovieListItem } from 'pages/Movies.styled';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -37,9 +38,9 @@ const Cast = () => {
       {status === Status.REJECTED && <ErrorComponent />}
 
       {status === Status.RESOLVED && (
-        <ul>
+        <MovieList>
           {actors.map(actor => (
-            <li key={actor.id}>
+            <MovieListItem key={actor.id}>
               <img
                 src={
                   actor.profile_path
@@ -50,9 +51,9 @@ const Cast = () => {
               />
               <h4>{actor.original_name}</h4>
               <p>{actor.character}</p>
-            </li>
+            </MovieListItem>
           ))}
-        </ul>
+        </MovieList>
       )}
       {status === Status.IDLE && (
         <p>

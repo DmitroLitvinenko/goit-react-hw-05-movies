@@ -3,13 +3,8 @@ import { Status } from 'api/status';
 import { ErrorComponent } from 'components/Error/Error';
 import LoaderComponent from 'components/Loader/Loader';
 import { Suspense, useEffect, useState } from 'react';
-import {
-  Link,
-  NavLink,
-  Outlet,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Button, Container } from './MoviesDetailsPage.styled';
 
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
@@ -18,8 +13,7 @@ const MovieDetailsPage = () => {
   const [status, setStatus] = useState(Status.IDLE);
   const location = useLocation();
 
-  const backLink = location.state?.from ?? '/movies';
-  console.log(location);
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     setStatus(Status.PENDING);
@@ -44,8 +38,8 @@ const MovieDetailsPage = () => {
 
       {status === Status.RESOLVED && (
         <>
-          <Link to={backLink}>Back</Link>
-          <div>
+          <Button to={backLinkHref}>Back to Home Page</Button>
+          <Container>
             <img
               src={
                 movie.poster_path
@@ -73,7 +67,7 @@ const MovieDetailsPage = () => {
                 </>
               )}
             </div>
-          </div>
+          </Container>
 
           <nav>
             <p>Additional information</p>

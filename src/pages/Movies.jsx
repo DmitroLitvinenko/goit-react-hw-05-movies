@@ -1,10 +1,12 @@
 import apiService from 'api/api';
 import { Status } from 'api/status';
+
 import { ErrorComponent } from 'components/Error/Error';
 import LoaderComponent from 'components/Loader/Loader';
 import { SearchBar } from 'components/SearchBar/SearchBar';
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { MovieListItem } from './Movies.styled';
 
 const Movies = () => {
   const location = useLocation();
@@ -55,7 +57,7 @@ const Movies = () => {
         <>
           <ul>
             {movies.map(movie => (
-              <li key={movie.id}>
+              <MovieListItem key={movie.id}>
                 <img
                   src={
                     movie.poster_path
@@ -73,7 +75,7 @@ const Movies = () => {
                 >
                   <p>{movie.title}</p>
                 </NavLink>
-              </li>
+              </MovieListItem>
             ))}
           </ul>
         </>

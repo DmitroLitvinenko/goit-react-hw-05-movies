@@ -4,6 +4,7 @@ import { ErrorComponent } from 'components/Error/Error';
 import LoaderComponent from 'components/Loader/Loader';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { MovieList, MovieListItem } from './Movies.styled';
 
 const HomePage = () => {
   const location = useLocation();
@@ -38,29 +39,31 @@ const HomePage = () => {
 
       {status === Status.RESOLVED && (
         <>
-          <ul>
+          <MovieList>
             {movies.map(movie => (
-              <li key={movie.id}>
-                <Link
-                  to={{
-                    pathname: `movies/${movie.id}`,
-                    state: { from: location },
-                  }}
-                >
-                  <img
-                    src={
-                      movie.poster_path
-                        ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                        : 'noPhoto'
-                    }
-                    alt={movie.title}
-                    width="120"
-                  />
-                </Link>
-                <span>{movie.title}</span>
-              </li>
+              <MovieListItem key={movie.id}>
+                <div>
+                  <Link
+                    to={{
+                      pathname: `movies/${movie.id}`,
+                      state: { from: location },
+                    }}
+                  >
+                    <img
+                      src={
+                        movie.poster_path
+                          ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                          : 'noPhoto'
+                      }
+                      alt={movie.title}
+                      width="240"
+                    />
+                  </Link>
+                </div>
+                <p>{movie.title}</p>
+              </MovieListItem>
             ))}
-          </ul>
+          </MovieList>
         </>
       )}
     </main>
