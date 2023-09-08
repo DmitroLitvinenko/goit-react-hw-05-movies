@@ -43,12 +43,7 @@ const HomePage = () => {
             {movies.map(movie => (
               <MovieListItem key={movie.id}>
                 <div>
-                  <Link
-                    to={{
-                      pathname: `movies/${movie.id}`,
-                      state: { from: location },
-                    }}
-                  >
+                  <Link to={`movies/${movie.id}`} state={{ from: location }}>
                     <img
                       src={
                         movie.poster_path

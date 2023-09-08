@@ -1,83 +1,78 @@
 import apiService from 'api/api';
-import { Status } from 'api/status';
 
 import { ErrorComponent } from 'components/Error/Error';
 import LoaderComponent from 'components/Loader/Loader';
 import { SearchBar } from 'components/SearchBar/SearchBar';
-import { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { MovieListItem } from './Movies.styled';
+import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import { MovieList, MovieListItem } from './Movies.styled';
+import { useState, useEffect } from 'react';
 
 const Movies = () => {
   const location = useLocation();
-  const [query, setQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('name') || '';
   const [movies, setMovies] = useState(null);
   const [error, setError] = useState(null);
-  const [status, setStatus] = useState(Status.IDLE);
+  const [status, setStatus] = useState('idle');
 
   useEffect(() => {
     if (!query) return;
-    setStatus(Status.PENDING);
+    setStatus('pending');
     apiService
       .getMoviesByKeyWord(query)
       .then(({ results }) => {
         if (results.length === 0) {
           setError(`No results to show for "${query}!"`);
-          setStatus(Status.REJECTED);
+          setStatus('rejected');
           return;
         }
 
         setMovies(results);
-        setStatus(Status.RESOLVED);
+        setStatus('resolved');
       })
       .catch(error => {
         console.log(error);
         setError(error.message);
-        setStatus(Status.REJECTED);
+        setStatus('rejected');
       });
   }, [query]);
 
   const searchImages = newSearch => {
     if (query === newSearch) return;
-    setQuery(newSearch);
     setMovies(null);
     setError(null);
-    setStatus(Status.IDLE);
+    setStatus('idle');
+    setSearchParams({ name: newSearch });
   };
 
   return (
     <>
       <SearchBar onHandleSubmit={searchImages} />
 
-      {status === Status.PENDING && <LoaderComponent />}
+      {status === 'pending' && <LoaderComponent />}
 
-      {status === Status.REJECTED && <ErrorComponent message={error} />}
+      {status === 'rejected' && <ErrorComponent message={error} />}
 
-      {status === Status.RESOLVED && (
+      {status === 'resolved' && (
         <>
-          <ul>
+          <MovieList>
             {movies.map(movie => (
               <MovieListItem key={movie.id}>
-                <img
-                  src={
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                      : 'noPhoto'
-                  }
-                  alt={movie.title}
-                  width="320"
-                />
-                <NavLink
-                  to={{
-                    pathname: `${movie.id}`,
-                    state: { from: { location } },
-                  }}
-                >
-                  <p>{movie.title}</p>
+                <NavLink to={`/movies/${movie.id}`} state={{ from: location }}>
+                  <img
+                    src={
+                      movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                        : '../noPhoto.png'
+                    }
+                    alt={movie.title}
+                    width="240"
+                  />
+                  {movie.title}
                 </NavLink>
               </MovieListItem>
             ))}
-          </ul>
+          </MovieList>
         </>
       )}
     </>

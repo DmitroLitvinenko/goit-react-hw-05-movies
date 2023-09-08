@@ -4,7 +4,7 @@ import { ErrorComponent } from 'components/Error/Error';
 import LoaderComponent from 'components/Loader/Loader';
 import { Suspense, useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
-import { Button, Container } from './MoviesDetailsPage.styled';
+import { Button, Container, DetailsBtn } from './MoviesDetailsPage.styled';
 
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
@@ -12,8 +12,6 @@ const MovieDetailsPage = () => {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState(Status.IDLE);
   const location = useLocation();
-
-  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     setStatus(Status.PENDING);
@@ -30,6 +28,8 @@ const MovieDetailsPage = () => {
       });
   }, [movieId, error]);
 
+  const backLinkHref = location?.state?.from ?? '/movies';
+
   return (
     <>
       {status === Status.PENDING && <LoaderComponent />}
@@ -38,13 +38,13 @@ const MovieDetailsPage = () => {
 
       {status === Status.RESOLVED && (
         <>
-          <Button to={backLinkHref}>Back to Home Page</Button>
+          <Button to={backLinkHref}> Go Back</Button>
           <Container>
             <img
               src={
                 movie.poster_path
                   ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                  : 'noPhoto'
+                  : '../../noPhoto.png'
               }
               alt={movie.title}
               width="250"
@@ -72,23 +72,15 @@ const MovieDetailsPage = () => {
           <nav>
             <p>Additional information</p>
 
-            <NavLink
-              to={{
-                pathname: `cast`,
-                state: { from: { location } },
-              }}
-            >
-              Cast
-            </NavLink>
+            <DetailsBtn>
+              <NavLink to={`cast`} state={location.state}>
+                Cast
+              </NavLink>
 
-            <NavLink
-              to={{
-                pathname: `reviews`,
-                state: { from: { location } },
-              }}
-            >
-              Reviews
-            </NavLink>
+              <NavLink to={`reviews`} state={location.state}>
+                Reviews
+              </NavLink>
+            </DetailsBtn>
           </nav>
 
           <Suspense fallback={<LoaderComponent />}>
