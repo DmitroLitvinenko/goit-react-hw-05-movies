@@ -6,6 +6,7 @@ import { SearchBar } from 'components/SearchBar/SearchBar';
 import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import { MovieList, MovieListItem } from './Movies.styled';
 import { useState, useEffect } from 'react';
+import noPhoto from '../img/noPhoto.png';
 
 const Movies = () => {
   const location = useLocation();
@@ -63,7 +64,7 @@ const Movies = () => {
                     src={
                       movie.poster_path
                         ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                        : '../noPhoto.png'
+                        : noPhoto
                     }
                     alt={movie.title}
                     width="240"

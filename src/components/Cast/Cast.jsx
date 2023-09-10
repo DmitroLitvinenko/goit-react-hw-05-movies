@@ -5,6 +5,7 @@ import LoaderComponent from 'components/Loader/Loader';
 import { MovieList, MovieListItem } from 'pages/Movies.styled';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import noPhoto from '../../img/noPhoto.png';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -45,7 +46,7 @@ const Cast = () => {
                 src={
                   actor.profile_path
                     ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
-                    : 'noPhoto'
+                    : noPhoto
                 }
                 alt={actor.original_name}
               />

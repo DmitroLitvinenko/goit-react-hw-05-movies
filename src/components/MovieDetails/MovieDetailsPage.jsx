@@ -5,6 +5,7 @@ import LoaderComponent from 'components/Loader/Loader';
 import { Suspense, useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import { Button, Container, DetailsBtn } from './MoviesDetailsPage.styled';
+import noPhoto from '../../img/noPhoto.png';
 
 const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
@@ -30,6 +31,10 @@ const MovieDetailsPage = () => {
 
   const backLinkHref = location?.state?.from ?? '/movies';
 
+  const textStyle = {
+    textAlign: 'center',
+  };
+
   return (
     <>
       {status === Status.PENDING && <LoaderComponent />}
@@ -44,17 +49,17 @@ const MovieDetailsPage = () => {
               src={
                 movie.poster_path
                   ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                  : '../../noPhoto.png'
+                  : noPhoto
               }
               alt={movie.title}
               width="250"
             />
             <div>
               <h1>{movie.title} </h1>
-              <p>User Score: {movie.vote_average * 10}%</p>
+              <p>Rating: {Math.round(movie.vote_average)} out of 10</p>
               <h3>
-                Overview
-                <span>{movie.overview}</span>
+                Overview:
+                <p>{movie.overview}</p>
               </h3>
               {movie.genres && (
                 <>
@@ -70,7 +75,7 @@ const MovieDetailsPage = () => {
           </Container>
 
           <nav>
-            <p>Additional information</p>
+            <h2 style={textStyle}>Additional information</h2>
 
             <DetailsBtn>
               <NavLink to={`cast`} state={location.state}>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
+import { Form } from './SearchBar.styled';
 
 export const SearchBar = ({ onHandleSubmit }) => {
   const [query, setQuery] = useState('');
@@ -26,7 +27,7 @@ export const SearchBar = ({ onHandleSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <input
         type="text"
         value={query}
@@ -34,7 +35,7 @@ export const SearchBar = ({ onHandleSubmit }) => {
         onChange={e => setQuery(e.target.value.toLowerCase())}
       />
       <button type="submit">Search</button>
-    </form>
+    </Form>
   );
 };
 

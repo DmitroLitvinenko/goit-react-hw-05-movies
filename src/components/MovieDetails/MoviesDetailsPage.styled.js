@@ -5,6 +5,9 @@ const { styled } = require('styled-components');
 export const Container = styled.div`
   display: flex;
   gap: 30px;
+  p {
+    font-size: 20px;
+  }
 `;
 
 export const Button = styled(Link)`

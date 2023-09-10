@@ -5,6 +5,7 @@ import LoaderComponent from 'components/Loader/Loader';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MovieList, MovieListItem } from './Movies.styled';
+import noPhoto from '../img/noPhoto.png';
 
 const HomePage = () => {
   const location = useLocation();
@@ -48,7 +49,7 @@ const HomePage = () => {
                       src={
                         movie.poster_path
                           ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                          : 'noPhoto'
+                          : noPhoto
                       }
                       alt={movie.title}
                       width="240"
